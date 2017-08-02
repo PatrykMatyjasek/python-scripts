@@ -50,8 +50,11 @@ for godep in godeps:
         deps = json.loads(godep)
     except:
         continue
-    dependencies[deps["ImportPath"]] = []
     for dep in deps["Deps"]:
-        dependencies[deps["ImportPath"]].append(dep["ImportPath"])
+        if dep["ImportPath"] in dependencies.keys():
+            dependencies[dep["ImportPath"]].append(deps["ImportPath"])
+        else:
+            dependencies[dep["ImportPath"]] = []
+            dependencies[dep["ImportPath"]].append(deps["ImportPath"])
 
 print dependencies
